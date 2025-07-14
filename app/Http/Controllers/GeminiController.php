@@ -9,16 +9,19 @@ class GeminiController extends Controller
 {
     protected $geminiService;
 
-    public function _construct(GeminiAIService $geminiService) {
+    public function __construct(GeminiAIService $geminiService)
+    {
         $this->geminiService = $geminiService;
     }
 
-    public function generate(Request $request) {
+    public function generate(Request $request)
+    {
         $request->validate([
             'prompt' => 'required|string',
         ]);
 
         $response = $this->geminiService->generateText($request->input('prompt'));
+
         return response()->json($response);
     }
 }

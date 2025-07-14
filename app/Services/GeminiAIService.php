@@ -11,7 +11,13 @@ class GeminiAIService
     public function generateText($prompt)
     {
         $response = Http::post($this->apiUrl . '?key=' . env('GEMINI_API_KEY'), [
-            'prompt' => ['text' => $prompt]
+            'contents' => [
+                [
+                    'parts' => [
+                        ['text' => $prompt]
+                    ]
+                ]
+            ]
         ]);
 
         return $response->json();
