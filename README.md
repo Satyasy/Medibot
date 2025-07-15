@@ -184,7 +184,7 @@ Permintaan harus berisi satu kunci `prompt` dengan pertanyaan pengguna sebagai n
 {
     "prompt": "Apa saja gejala awal dari infeksi HIV?"
 }
-
+```
 
 ## License
 
