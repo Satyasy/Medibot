@@ -15,7 +15,7 @@ class ProcessMedicalPdfs extends Command
     public function handle()
     {
         $parser = new Parser();
-        $path = storage_path('app\medical_documents');
+        $path = storage_path('app/medical_documents');
         $files = File::files($path);
 
         foreach ($files as $file) {
