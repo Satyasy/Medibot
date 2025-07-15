@@ -16,6 +16,11 @@ class GeminiController extends Controller
         $this->ragService = $ragService;
     }
 
+     public function showChatbotPage()
+    {
+        return view('chatbot'); // Akan merender file resources/views/chatbot.blade.php
+    }
+    
     public function generate(Request $request) {
         $request->validate([
             'prompt' => 'required|string',
@@ -33,7 +38,7 @@ class GeminiController extends Controller
         // 4. AUGMENTATION: Buat prompt akhir berdasarkan ada atau tidaknya konteks
         if ($context) {
             // Jika konteks DITEMUKAN, buat prompt yang diperkaya
-            $finalPrompt = "Anda adalah asisten AI kesehatan bernama Medibot. Berdasarkan informasi berikut: '{$context}'. Jawab pertanyaan dari pengguna: '{$userQuery}'. Jawablah dengan ringkas dan hanya berdasarkan informasi yang diberikan. Selalu sebutkan sumber informasi di akhir jawaban Anda.";
+            $finalPrompt = "Anda adalah asisten AI kesehatan bernama Medibot. Berdasarkan informasi berikut: '{$context}'. Jawab pertanyaan dari pengguna: '{$userQuery}'. Jawablah dengan tepat dan hanya berdasarkan informasi yang diberikan. Selalu sebutkan sumber informasi di akhir jawaban Anda.";
         } else {
             // Jika konteks TIDAK DITEMUKAN, berikan jawaban dengan penafian
             $finalPrompt = "Anda adalah asisten AI kesehatan bernama Medibot. Jawab pertanyaan dari pengguna: '{$userQuery}'. Penting: Karena saya tidak menemukan informasi spesifik di basis data medis saya, berikan jawaban umum dan akhiri dengan penafian bahwa ini adalah informasi umum dan pengguna harus berkonsultasi dengan dokter.";

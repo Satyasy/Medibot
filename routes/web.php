@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GeminiController;
+
 
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/chatbot', [GeminiController::class, 'showChatbotPage'])->name('chatbot.page');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -14,4 +17,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-

@@ -46,10 +46,12 @@
 
 /* Chatbot Button - Ubah ini */
 .chatbot-button-wrapper {
-    position: fixed; /* Ubah dari absolute ke fixed */
+    position: fixed;
+    /* Ubah dari absolute ke fixed */
     bottom: 30px;
     right: 50px;
-    z-index: 1000; /* Pastikan di atas elemen lain */
+    z-index: 1000;
+    /* Pastikan di atas elemen lain */
 }
 
 .chatbot-btn {
@@ -59,7 +61,8 @@
     border-radius: 30px;
     display: flex;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sedikit lebih gelap agar menonjol */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Sedikit lebih gelap agar menonjol */
     font-size: 1.1em;
     font-weight: 600;
 }
@@ -177,7 +180,8 @@
         text-align: center;
     }
 
-    .hero-text, .hero-image {
+    .hero-text,
+    .hero-image {
         max-width: 100%;
     }
 
@@ -258,7 +262,8 @@
 /* Features Section */
 .features-section {
     padding: 80px 0;
-    background-color: var(--light-grey); /* Warna latar belakang abu-abu muda */
+    background-color: var(--light-grey);
+    /* Warna latar belakang abu-abu muda */
     text-align: center;
 }
 
@@ -279,14 +284,17 @@
     display: flex;
     justify-content: center;
     gap: 30px;
-    flex-wrap: wrap; /* Untuk responsivitas */
+    flex-wrap: wrap;
+    /* Untuk responsivitas */
 }
 
 .feature-card {
-    background-color: #ffe0b3; /* Warna oranye muda, mirip desain */
+    background-color: #ffe0b3;
+    /* Warna oranye muda, mirip desain */
     border-radius: 15px;
     padding: 30px;
-    width: calc(33.33% - 20px); /* Tiga kolom dengan gap */
+    width: calc(33.33% - 20px);
+    /* Tiga kolom dengan gap */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     display: flex;
@@ -300,9 +308,11 @@
 }
 
 .feature-icon {
-    width: 80px; /* Ukuran wadah ikon */
+    width: 80px;
+    /* Ukuran wadah ikon */
     height: 80px;
-    background-color: #ffb366; /* Warna latar belakang ikon, lebih gelap */
+    background-color: #ffb366;
+    /* Warna latar belakang ikon, lebih gelap */
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -312,7 +322,8 @@
 }
 
 .feature-icon img {
-    width: 50px; /* Ukuran ikon di dalam lingkaran */
+    width: 50px;
+    /* Ukuran ikon di dalam lingkaran */
     height: 50px;
     object-fit: contain;
 }
@@ -333,7 +344,8 @@
 /* Media Queries for Features Section */
 @media (max-width: 992px) {
     .feature-card {
-        width: calc(50% - 15px); /* Dua kolom di tablet */
+        width: calc(50% - 15px);
+        /* Dua kolom di tablet */
     }
 }
 
@@ -341,14 +353,236 @@
     .features-section {
         padding: 60px 0;
     }
+
     .features-section .section-title {
         font-size: 2em;
     }
+
     .features-section .section-subtitle {
         font-size: 1em;
         margin-bottom: 30px;
     }
+
     .feature-card {
-        width: 90%; /* Satu kolom di mobile */
+        width: 90%;
+        /* Satu kolom di mobile */
     }
+}
+
+/*
+|--------------------------------------------------------------------------
+| CSS untuk Chatbot Medibot
+|--------------------------------------------------------------------------
+*/
+
+.chatbot-page-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 80px);
+    /* Sesuaikan 80px dengan tinggi header Anda */
+    max-height: 1080px;
+    margin: 0 auto;
+    background-color: #2D2D2D;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Sidebar Kiri */
+.chat-sidebar {
+    width: 240px;
+    background-color: #252525;
+    padding: 20px;
+    color: #EAEAEA;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #3a3a3a;
+}
+
+.sidebar-header .logo {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #EAEAEA;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s;
+    font-size: 0.95em;
+}
+
+.sidebar-menu a:hover {
+    background-color: #3a3a3a;
+}
+
+.history-title {
+    margin-top: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    color: #aaa;
+    padding: 0 12px;
+}
+
+/* Area Chat Utama */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.chat-header {
+    text-align: right;
+    padding: 10px;
+}
+
+.chatbot-close-btn {
+    background: transparent;
+    color: #888;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.chatbot-close-btn:hover {
+    color: white;
+    background-color: #444;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 0 20px 20px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Tampilan awal dengan logo */
+.chat-start-view {
+    margin: auto;
+    text-align: center;
+}
+
+.chat-start-view .large-logo {
+    width: 100%;
+    max-width: 180px;
+    opacity: 0.5;
+}
+
+/* Styling gelembung chat */
+.message-bubble {
+    padding: 12px 18px;
+    border-radius: 20px;
+    max-width: 75%;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: #7B2CBF;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.bot-message {
+    background-color: #3E3E3E;
+    color: #EAEAEA;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.bot-message .source {
+    font-size: 0.8em;
+    margin-top: 10px;
+    color: #aaa;
+    border-top: 1px solid #555;
+    padding-top: 8px;
+    font-style: italic;
+}
+
+/* Loader "sedang mengetik..." */
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: #aaa;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: -0.32s;
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1.0);
+    }
+}
+
+/* Area Input Chat */
+.chat-input-area {
+    padding: 15px 20px;
+    border-top: 1px solid #3a3a3a;
+}
+
+#chat-form {
+    display: flex;
+    align-items: center;
+    background-color: #3E3E3E;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+#chat-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 1em;
+}
+
+#chat-input:focus {
+    outline: none;
+}
+
+#send-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 24px;
+    transition: color 0.2s;
+}
+
+#send-btn:hover {
+    color: white;
 }

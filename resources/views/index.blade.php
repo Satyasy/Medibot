@@ -20,12 +20,12 @@
                 <img src="{{ asset('images/hero-landing.png') }}" alt="Ilustrasi Dokter dan Pasien">
             </div>
         </div>
-        <div class="chatbot-button-wrapper">
-            <a href="#" class="btn chatbot-btn">
-                <span>Chatbot</span>
-                <img src="{{ asset('images/profile-picture.png') }}" alt="Chatbot Icon">
-            </a>
-        </div>
+      <div class="chatbot-button-wrapper">
+    <a href="{{ route('chatbot.page') }}" class="btn chatbot-btn">
+        <span>Chatbot</span>
+        <img src="{{ asset('images/profile-picture.png') }}" alt="Chatbot Icon">
+    </a>
+</div>
     </section>
 
     <section id="fitur-section" class="features-section">

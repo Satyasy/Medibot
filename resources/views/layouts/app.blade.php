@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Aplikasi Kesehatan')</title>
     {{-- Favicon --}}
@@ -13,6 +15,7 @@
     {{-- CSS spesifik halaman --}}
     @yield('styles')
 </head>
+
 <body>
     {{-- Header Section (Navbar) --}}
     <header class="main-header">
@@ -46,7 +49,8 @@
         <div class="container footer-content">
             <div class="footer-brand">
                 <img src="{{ asset('images/logo-medibot.png') }}" alt="Logo M3 Footer">
-                <p>Kesehatan adalah Investasi Terbaik. Medibot penyedia layanan konsultasi gratis berintegrasi AI atau Kecerdasan Buatan. Dengan layanan 24 jam, mampu melayani anda kapanpun dan dimanapun</p>
+                <p>Kesehatan adalah Investasi Terbaik. Medibot penyedia layanan konsultasi gratis berintegrasi AI atau
+                    Kecerdasan Buatan. Dengan layanan 24 jam, mampu melayani anda kapanpun dan dimanapun</p>
             </div>
             <div class="footer-nav">
                 <h4>Informasi</h4>
@@ -81,4 +85,5 @@
     {{-- JavaScript spesifik halaman --}}
     @yield('scripts')
 </body>
+
 </html>
