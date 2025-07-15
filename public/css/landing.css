@@ -1,0 +1,354 @@
+/* Hero Section */
+.hero-section {
+    position: relative;
+    background-color: #f8f8f8;
+    padding: 60px 0 80px;
+    overflow: hidden;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 50%;
+}
+
+.hero-text h1 {
+    font-size: 3.5em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.hero-text p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: var(--dark-grey);
+}
+
+.hero-image {
+    flex: 1;
+    max-width: 50%;
+    text-align: right;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+/* Chatbot Button - Ubah ini */
+.chatbot-button-wrapper {
+    position: fixed; /* Ubah dari absolute ke fixed */
+    bottom: 30px;
+    right: 50px;
+    z-index: 1000; /* Pastikan di atas elemen lain */
+}
+
+.chatbot-btn {
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sedikit lebih gelap agar menonjol */
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.chatbot-btn img {
+    height: 24px;
+    margin-left: 10px;
+}
+
+.chatbot-btn:hover {
+    background-color: #cc7000;
+}
+
+/* Media Queries untuk Chatbot Button */
+@media (max-width: 768px) {
+    .chatbot-button-wrapper {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .chatbot-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .chatbot-btn img {
+        height: 20px;
+        margin-left: 8px;
+    }
+}
+
+/* Article Section */
+.articles-section {
+    padding: 60px 0;
+    background-color: #fff;
+}
+
+.articles-section h2 {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: var(--primary-color);
+}
+
+.article-category {
+    margin-bottom: 40px;
+}
+
+.article-category h3 {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    border-left: 5px solid var(--primary-color);
+    padding-left: 15px;
+}
+
+.article-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.article-card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: calc(50% - 15px);
+    transition: transform 0.3s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+}
+
+.article-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.article-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.article-info h4 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.article-info p {
+    font-size: 0.9em;
+    color: var(--dark-grey);
+    margin-bottom: 5px;
+}
+
+.article-info .date {
+    font-size: 0.8em;
+    color: var(--dark-grey);
+}
+
+/* Media Queries for Landing Page Specific Elements */
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text, .hero-image {
+        max-width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 2.8em;
+    }
+
+    .chatbot-button-wrapper {
+        right: 20px;
+        bottom: 20px;
+    }
+
+    .article-list {
+        flex-direction: column;
+    }
+
+    .article-card {
+        width: 100%;
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2.2em;
+    }
+
+    .articles-section h2 {
+        font-size: 2em;
+    }
+
+    .article-category h3 {
+        font-size: 1.5em;
+    }
+
+    .article-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .article-card img {
+        width: 100%;
+        height: 200px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .article-info {
+        padding: 15px;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 1.8em;
+    }
+
+    .hero-text p {
+        font-size: 1em;
+    }
+
+    .chatbot-button-wrapper {
+        right: 15px;
+        bottom: 15px;
+    }
+
+    .chatbot-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+
+    .chatbot-btn img {
+        height: 20px;
+    }
+}
+
+
+/* Features Section */
+.features-section {
+    padding: 80px 0;
+    background-color: var(--light-grey); /* Warna latar belakang abu-abu muda */
+    text-align: center;
+}
+
+.features-section .section-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.features-section .section-subtitle {
+    font-size: 1.2em;
+    color: var(--dark-grey);
+    margin-bottom: 50px;
+}
+
+.features-list {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap; /* Untuk responsivitas */
+}
+
+.feature-card {
+    background-color: #ffe0b3; /* Warna oranye muda, mirip desain */
+    border-radius: 15px;
+    padding: 30px;
+    width: calc(33.33% - 20px); /* Tiga kolom dengan gap */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-icon {
+    width: 80px; /* Ukuran wadah ikon */
+    height: 80px;
+    background-color: #ffb366; /* Warna latar belakang ikon, lebih gelap */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon img {
+    width: 50px; /* Ukuran ikon di dalam lingkaran */
+    height: 50px;
+    object-fit: contain;
+}
+
+.feature-card h3 {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.feature-card p {
+    font-size: 0.95em;
+    color: var(--dark-grey);
+    line-height: 1.5;
+}
+
+/* Media Queries for Features Section */
+@media (max-width: 992px) {
+    .feature-card {
+        width: calc(50% - 15px); /* Dua kolom di tablet */
+    }
+}
+
+@media (max-width: 768px) {
+    .features-section {
+        padding: 60px 0;
+    }
+    .features-section .section-title {
+        font-size: 2em;
+    }
+    .features-section .section-subtitle {
+        font-size: 1em;
+        margin-bottom: 30px;
+    }
+    .feature-card {
+        width: 90%; /* Satu kolom di mobile */
+    }
+}
