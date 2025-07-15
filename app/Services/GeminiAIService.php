@@ -3,33 +3,12 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class GeminiAIService
 {
-    protected $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
-
-<<<<<<< Updated upstream
-    public function generateText($prompt)
-    {
-        $response = Http::post($this->apiUrl . '?key=' . env('GEMINI_API_KEY'), [
-            'contents' => [
-                [
-                    'parts' => [
-                        ['text' => $prompt]
-                    ]
-                ]
-            ]
-        ]);
-=======
-    // public function generateText($prompt)
-    // {
-    //     $response = Http::post($this->apiUrl . '?key=' . env('GEMINI_API_KEY'), [
-    //         'prompt' => ['text' => $prompt]
-    //     ]);
->>>>>>> Stashed changes
-
-    //     return $response->json();
-    // }
+    // Gunakan model yang lebih spesifik dan umum, misal 'gemini-1.5-flash'
+    protected $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
     public function generateText(string $prompt)
     {
@@ -50,6 +29,7 @@ class GeminiAIService
 
         if ($response->failed()) {
             // Jika ada error dari API, catat untuk debugging
+            Log::error('Gemini API Error:', $response->json());
             return ['error' => 'Gagal berkomunikasi dengan AI Service.'];
         }
 
