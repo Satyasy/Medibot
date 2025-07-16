@@ -16,7 +16,7 @@
         {{-- Area Chat Utama --}}
         <main class="chat-main-area">
             {{-- Header internal chatbot --}}
-            <header class="chat-main-header">
+            {{-- <header class="chat-main-header">
                 <div class="chat-partner-info">
                     <img src="{{ asset('images/logo-only.png') }}" alt="Medibot" class="chat-partner-avatar">
                     <span class="chat-partner-name">Medibot AI Assistant</span>
@@ -24,7 +24,7 @@
                 <div class="chat-main-actions">
                     <button><i class="fas fa-ellipsis-v"></i></button>
                 </div>
-            </header>
+            </header> --}}
 
             {{-- Area Pesan Chat --}}
             <div class="chat-messages-display" id="chat-messages">
