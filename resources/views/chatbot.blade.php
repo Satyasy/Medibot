@@ -1,140 +1,161 @@
-@extends('layouts.app') {{-- Halaman chatbot tetap menggunakan layout utama --}}
+@extends('layouts.app')
 
-@section('title', 'Chatbot Medibot')
+@section('title', 'Medibot Chatbot')
+
+{{-- Memberikan class 'chatbot-page' ke elemen body untuk CSS spesifik --}}
+@section('body_class', 'chatbot-page')
 
 @section('styles')
-    {{-- Kita tetap menggunakan landing.css, tapi CSS-nya akan disesuaikan --}}
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+    {{-- Memuat CSS spesifik untuk chatbot setelah app.css --}}
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
 @endsection
 
 @section('content')
-    {{-- Kontainer utama untuk halaman chatbot --}}
-    <div class="chatbot-page-container">
-        <!-- Sidebar Kiri -->
-        <div class="chat-sidebar">
-            <div class="sidebar-header">
-                <a href="{{ url('/') }}"><img src="{{ asset('images/logo-medibot.png') }}" alt="Medibot Logo"
-                        class="logo"></a>
-            </div>
-            <div class="sidebar-menu">
-                <a href="#">+ Obrolan Baru</a>
-                <a href="#"> Cari Obrolan</a>
-            </div>
-            <div class="history-title">OBROLAN</div>
-            <div class="sidebar-menu history-list">
-                <a href="#">Gejala Batuk, pilek</a>
-                <a href="#">Cara diet</a>
-                <a href="#">Atasi sakit gigi</a>
-            </div>
-        </div>
-
-        <!-- Area Chat Utama -->
-        <div class="chat-main">
-            <div class="chat-messages" id="chat-messages">
-                <!-- Tampilan Awal dengan logo Medibot -->
-                <div class="chat-start-view" id="chat-start-view">
-                    <img src="{{ asset('images/logo-medibot.png') }}" alt="Medibot Logo Large" class="large-logo">
-                    <h2 style="color: #eaeaea; margin-top: 20px;">Selamat Datang di Medibot</h2>
-                    <p style="color: #aaa;">Tanyakan keluhan apa saja pada saya.</p>
+    {{-- Kontainer utama untuk tampilan chatbot --}}
+    <div id="chatbot-container-new">
+        {{-- Area Chat Utama --}}
+        <main class="chat-main-area">
+            {{-- Header internal chatbot --}}
+            <header class="chat-main-header">
+                <div class="chat-partner-info">
+                    <img src="{{ asset('images/logo-only.png') }}" alt="Medibot" class="chat-partner-avatar">
+                    <span class="chat-partner-name">Medibot AI Assistant</span>
                 </div>
+                <div class="chat-main-actions">
+                    <button><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+            </header>
+
+            {{-- Area Pesan Chat --}}
+            <div class="chat-messages-display" id="chat-messages">
+                <div class="chat-start-view" id="chat-start-view">
+                    <h3 class="welcome-title-chat">Selamat Datang di Medibot</h3>
+                    <p class="welcome-text-chat">
+                        Tanyakan keluhan apa saja pada saya.
+                    </p>
+                </div>
+                {{-- Pesan akan ditambahkan di sini oleh JavaScript --}}
             </div>
+
+            {{-- Area Input Chat --}}
             <div class="chat-input-area">
                 <form id="chat-form">
-                    <input type="text" id="chat-input" placeholder="Tanya keluhan apa saja pada Medibot..."
-                        autocomplete="off">
-                    <button type="submit" id="send-btn">➤</button>
+                    @csrf
+                    <button type="button" class="input-attach-btn"><i class="fas fa-smile"></i></button>
+                    <input type="text" id="chat-input" placeholder="Tanya keluhan apa saja pada Medibot..." autocomplete="off">
+                    <button type="submit" id="send-btn"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
-        </div>
+        </main>
     </div>
 @endsection
 
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Script untuk Fungsionalitas Chatbot ---
             const chatForm = document.getElementById('chat-form');
             const chatInput = document.getElementById('chat-input');
             const chatMessages = document.getElementById('chat-messages');
-            let chatStartView = document.getElementById('chat-start-view');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            // Fungsi saat form di-submit
-            chatForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const userMessage = chatInput.value.trim();
-
-                if (userMessage) {
-                    if (chatStartView) {
-                        chatStartView.remove();
-                        chatStartView = null;
-                    }
-
-                    appendMessage(userMessage, 'user');
-                    chatInput.value = '';
-                    showTypingIndicator();
-
-                    fetch("{{ url('/api/generate-text') }}", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                // 'X-CSRF-TOKEN': csrfToken,
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                prompt: userMessage
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            removeTypingIndicator();
-                            if (data && data.reply) {
-                                appendMessage(data.reply, 'bot', data.source);
-                            } else {
-                                appendMessage('Maaf, terjadi kesalahan dalam memproses jawaban.',
-                                    'bot');
-                            }
-                        })
-                        .catch(error => {
-                            removeTypingIndicator();
-                            appendMessage('Maaf, terjadi kesalahan koneksi. Coba lagi nanti.', 'bot');
-                            console.error('Error:', error);
-                        });
-                }
-            });
-
-            function appendMessage(text, sender, source = null) {
-                const messageBubble = document.createElement('div');
-                messageBubble.classList.add('message-bubble', `${sender}-message`);
-                const content = document.createElement('p');
-                content.innerHTML = text.replace(/\n/g, '<br>');
-                messageBubble.appendChild(content);
-
-                if (source && sender === 'bot') {
-                    const sourceDiv = document.createElement('div');
-                    sourceDiv.className = 'source';
-                    sourceDiv.textContent = `Sumber: ${source}`;
-                    messageBubble.appendChild(sourceDiv);
-                }
-                chatMessages.appendChild(messageBubble);
-                scrollToBottom();
-            }
-
-            function showTypingIndicator() {
-                const indicator = document.createElement('div');
-                indicator.classList.add('message-bubble', 'bot-message', 'typing-indicator');
-                indicator.innerHTML = `<span></span><span></span><span></span>`;
-                chatMessages.appendChild(indicator);
-                scrollToBottom();
-            }
-
-            function removeTypingIndicator() {
-                const indicator = document.querySelector('.typing-indicator');
-                if (indicator) indicator.remove();
-            }
+            const chatStartView = document.getElementById('chat-start-view');
+            const chatbotApiUrl = '/api/chatbot'; // Pastikan URL ini benar
 
             function scrollToBottom() {
                 chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function appendMessage(sender, text) {
+                if (chatStartView.style.display !== 'none') {
+                    chatStartView.style.display = 'none';
+                }
+
+                const messageRow = document.createElement('div');
+                messageRow.classList.add('message-row', sender === 'user' ? 'user-row' : 'bot-row');
+
+                const avatarSrc = sender === 'user' ? 'https://via.placeholder.com/32/A03061/FFFFFF?text=U' : '{{ asset('images/logo-only.png') }}';
+                const avatar = document.createElement('img');
+                avatar.classList.add('message-avatar');
+                avatar.src = avatarSrc;
+                avatar.alt = sender === 'user' ? 'User' : 'Bot';
+
+                const bubble = document.createElement('div');
+                bubble.classList.add('message-bubble', sender === 'user' ? 'user-message' : 'bot-message');
+                bubble.innerHTML = text.replace(/\n/g, '<br>');
+
+                if (sender === 'user') {
+                    messageRow.appendChild(bubble);
+                    messageRow.appendChild(avatar);
+                } else {
+                    messageRow.appendChild(avatar);
+                    messageRow.appendChild(bubble);
+                }
+
+                chatMessages.appendChild(messageRow);
+                scrollToBottom();
+            }
+
+            function appendTypingIndicator() {
+                const messageRow = document.createElement('div');
+                messageRow.classList.add('message-row', 'bot-row', 'typing-indicator');
+
+                const avatar = document.createElement('img');
+                avatar.classList.add('message-avatar');
+                avatar.src = '{{ asset('images/logo-only.png') }}';
+                avatar.alt = 'Bot';
+
+                const bubble = document.createElement('div');
+                bubble.classList.add('message-bubble', 'bot-message');
+                bubble.innerHTML = `
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                `;
+
+                messageRow.appendChild(avatar);
+                messageRow.appendChild(bubble);
+                chatMessages.appendChild(messageRow);
+                scrollToBottom();
+                return messageRow;
+            }
+
+            function removeTypingIndicator(indicatorElement) {
+                if (indicatorElement) {
+                    indicatorElement.remove();
+                }
+            }
+
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const message = chatInput.value.trim();
+                if (message) {
+                    appendMessage('user', message);
+                    chatInput.value = '';
+
+                    const typingIndicator = appendTypingIndicator();
+
+                    fetch(chatbotApiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ message: message })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        removeTypingIndicator(typingIndicator);
+                        appendMessage('bot', data.reply || 'Maaf, terjadi kesalahan atau balasan tidak valid.');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching chatbot reply:', error);
+                        removeTypingIndicator(typingIndicator);
+                        appendMessage('bot', 'Maaf, terjadi kesalahan saat menghubungi asisten AI.');
+                    });
+                }
+            });
+
+            // Initial state for chat messages (show welcome state)
+            if (chatMessages.children.length === 0) {
+                chatStartView.style.display = 'flex';
             }
         });
     </script>

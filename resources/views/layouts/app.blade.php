@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Aplikasi Kesehatan')</title>
-    {{-- Favicon --}}
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
-    {{-- Link ke CSS global --}}
+    {{-- Link ke CSS global utama --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    
+    {{-- Font Awesome untuk ikon (Jika belum ada di app.css) --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    {{-- CSS spesifik halaman --}}
+    {{-- CSS spesifik halaman (akan diisi oleh @yield('styles') di halaman turunan) --}}
     @yield('styles')
 </head>
 
-<body>
+{{-- Body class akan ditentukan oleh halaman turunan (misal: 'chatbot-page') --}}
+<body class="@yield('body_class')">
+
     {{-- Header Section (Navbar) --}}
     <header class="main-header">
         <div class="container header-content">
@@ -28,21 +31,25 @@
                     <li><a href="{{ url('/') }}">Beranda</a></li>
                     <li><a href="#fitur-section">Fitur</a></li>
                     <li><a href="#articles-section">Artikel</a></li>
-                    <li><a href="{{ url('/') }}">Konsultasi Dokter</a></li>
+                    <li><a href="{{ url('/chatbot') }}">Konsultasi Dokter</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
                 @guest
                     <a href="{{ route('login') }}" class="btn btn-login">Login</a>
                 @endguest
+                {{-- @auth --}}
+                    {{-- Tambahkan link atau dropdown user jika sudah login --}}
+                {{-- @endauth --}}
             </div>
         </div>
     </header>
 
-    {{-- Konten Utama Halaman (akan diisi oleh halaman turunan seperti index.blade.php) --}}
-    <div id="app">
+    {{-- Konten Utama Halaman --}}
+    {{-- Ini adalah wrapper utama untuk konten dinamis. Ini akan diatur oleh CSS --}}
+    <main id="main-content-wrapper">
         @yield('content')
-    </div>
+    </main>
 
     {{-- Footer Section --}}
     <footer class="main-footer">
@@ -85,5 +92,4 @@
     {{-- JavaScript spesifik halaman --}}
     @yield('scripts')
 </body>
-
 </html>
