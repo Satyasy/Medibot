@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class GeminiAIService
 {
-    // Gunakan model yang lebih spesifik dan umum, misal 'gemini-1.5-flash'
-    protected $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+    protected $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
     public function generateText(string $prompt)
     {
