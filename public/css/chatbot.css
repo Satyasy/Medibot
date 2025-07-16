@@ -1,0 +1,463 @@
+/*
+|--------------------------------------------------------------------------
+| CSS untuk Chatbot Medibot
+|--------------------------------------------------------------------------
+| File ini dimuat secara spesifik hanya di halaman chatbot.
+| Ini akan menimpa (override) atau melengkapi gaya dari app.css untuk tata letak chatbot.
+*/
+
+/* Variabel dari app.css bisa digunakan di sini */
+:root {
+    --app-bg: #E6EBF0; /* Background di luar container chatbot */
+    --container-bg: #FFFFFF; /* Background utama container chatbot */
+
+    --primary-bubble-bg: #A03061; /* Warna bubble user */
+    --secondary-bubble-bg: #E6EBF0; /* Warna bubble bot */
+    --input-bg: #F0F2F5; /* Background input field */
+
+    --border-color-light: #ECEFF1; /* Border halus */
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-strong: rgba(0, 0, 0, 0.15);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+}
+
+
+/* 1. Pengaturan Body untuk Halaman Chatbot */
+body.chatbot-page {
+    /* Background khusus untuk halaman chatbot */
+    background-color: var(--app-bg);
+    /* Penting: Pastikan tidak ada padding-top dari app.css yang mengganggu body */
+    padding-top: 0 !important;
+    overflow-y: hidden; /* Mencegah scroll pada body saat chatbot memiliki scroll internal */
+}
+
+/* 2. Mengatur Main Content Wrapper di Halaman Chatbot */
+body.chatbot-page #main-content-wrapper {
+    display: flex; /* Gunakan flexbox untuk mengisi ruang */
+    flex-direction: column;
+    flex-grow: 1; /* Biarkan mengisi sisa tinggi */
+    padding-top: var(--navbar-height) !important; /* Offset untuk navbar fixed */
+    padding-bottom: 0 !important; /* Pastikan tidak ada padding bawah yang mengganggu */
+    margin: 0 !important; /* Hapus margin default */
+    width: 100% !important; /* Pastikan lebar penuh */
+    max-width: none !important; /* Hapus batasan max-width */
+    overflow: hidden; /* Penting untuk mencegah scroll ganda */
+}
+
+/* 3. Menyembunyikan Footer di Halaman Chatbot */
+body.chatbot-page .main-footer {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 4. Menghilangkan atau Mengoverride Sidebar/Layout yang Mengganggu */
+/* Ini adalah bagian krusial untuk mengatasi sidebar yang muncul tiba-tiba */
+/* Tambahkan selektor lain yang relevan jika ada div / class / id sidebar lain */
+body.chatbot-page .sidebar,
+body.chatbot-page [class*="sidebar"], /* Mencari class yang mengandung 'sidebar' */
+body.chatbot-page [id*="sidebar"], /* Mencari ID yang mengandung 'sidebar' */
+body.chatbot-page .left-panel,
+body.chatbot-page .right-panel,
+body.chatbot-page .main-content-area-with-sidebar, /* Contoh dari template yang mungkin */
+body.chatbot-page .col-md-3, /* Jika menggunakan Bootstrap grid untuk sidebar */
+body.chatbot-page .col-md-9 { /* Jika menggunakan Bootstrap grid untuk main content yang mungkin ada padding */
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    flex: none !important; /* Penting jika menggunakan flexbox untuk kolom */
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* 5. Styling Utama Chatbot Container */
+#chatbot-container-new {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px; /* Batasi lebar untuk tampilan desktop besar */
+    height: calc(100vh - var(--navbar-height) - 40px); /* Tinggi penuh dikurangi navbar dan margin vertikal */
+    background-color: var(--container-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 40px var(--shadow-strong);
+    overflow: hidden; /* Penting untuk scroll internal dan memotong overflow */
+    margin: 20px auto; /* Margin atas/bawah 20px, tengah otomatis */
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Scrollbar Styling (Webkit - Chrome, Safari, Edge) */
+#chatbot-container-new ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+#chatbot-container-new ::-webkit-scrollbar-track {
+    background: transparent;
+}
+#chatbot-container-new ::-webkit-scrollbar-thumb {
+    background: #c7c7c7;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--container-bg);
+}
+#chatbot-container-new ::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Chat Main Area */
+.chat-main-area {
+    flex: 1; /* Mengisi sisa ruang vertikal dalam container chatbot */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--container-bg);
+    width: 100%;
+}
+
+.chat-main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    border-bottom: 1px solid var(--border-color-light);
+    flex-shrink: 0; /* Agar header tidak menyusut */
+    background-color: var(--white);
+    z-index: 10;
+}
+
+.chat-partner-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chat-partner-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chat-partner-name {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.chat-main-actions button {
+    background: none;
+    border: none;
+    color: var(--dark-grey);
+    font-size: 1.2em;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: color var(--transition-speed);
+}
+.chat-main-actions button:hover {
+    color: var(--primary-color);
+}
+
+/* Chat Messages Display */
+.chat-messages-display {
+    flex: 1; /* Mengisi sisa ruang vertikal di antara header dan input */
+    padding: 20px 25px;
+    overflow-y: auto; /* Aktifkan scroll untuk pesan */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scroll-behavior: smooth;
+    padding-bottom: 100px; /* Ruang untuk input area */
+    position: relative;
+}
+
+/* Welcome State Styling */
+.chat-start-view {
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 0.8s ease-out forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.large-logo-grey {
+    max-width: 200px;
+    opacity: 0.3;
+    filter: grayscale(100%);
+    margin-bottom: 40px;
+}
+
+.welcome-title-chat {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--dark-grey);
+    margin-bottom: 15px;
+}
+
+.welcome-text-chat {
+    font-size: 1.1em;
+    color: var(--dark-grey);
+    max-width: 450px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+    opacity: 0.85;
+}
+
+/* Message Bubble Styling */
+.message-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.message-row.user-row {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.message-row.bot-row {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.message-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+
+.user-row .message-avatar {
+    border: 2px solid var(--primary-color);
+}
+
+.bot-row .message-avatar {
+    border: 2px solid var(--light-grey);
+}
+
+.message-bubble {
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    max-width: 75%;
+    line-height: 1.6;
+    word-wrap: break-word;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    animation: messageFadeIn 0.3s ease-out;
+    font-size: 1em;
+    position: relative;
+}
+
+@keyframes messageFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.user-message {
+    background-color: var(--primary-bubble-bg);
+    color: white;
+    border-bottom-right-radius: var(--radius-sm);
+}
+
+.bot-message {
+    background-color: var(--secondary-bubble-bg);
+    color: var(--text-color);
+    border-bottom-left-radius: var(--radius-sm);
+}
+
+/* Typing Indicator */
+.typing-indicator .message-bubble {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--secondary-bubble-bg);
+    padding: 14px 20px;
+}
+.typing-indicator .dot {
+    height: 8px;
+    width: 8px;
+    background-color: var(--dark-grey);
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+.typing-indicator .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+.typing-indicator .dot:nth-child(3) {
+    animation-delay: -0.32s;
+}
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
+/* Chat Input Area */
+.chat-input-area {
+    padding: 20px 25px;
+    border-top: 1px solid var(--border-color-light);
+    background-color: var(--container-bg);
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+#chat-form {
+    display: flex;
+    align-items: center;
+    background-color: var(--input-bg);
+    border-radius: var(--radius-lg);
+    padding: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.input-attach-btn {
+    background: none;
+    border: none;
+    color: var(--dark-grey);
+    font-size: 1.3em;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+.input-attach-btn:hover {
+    background-color: var(--border-color-light);
+    color: var(--primary-color);
+}
+
+#chat-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    padding: 12px 15px;
+    font-size: 1.05em;
+    caret-color: var(--primary-color);
+    line-height: 1.5;
+}
+#chat-input::placeholder {
+    color: var(--dark-grey);
+    opacity: 0.7;
+}
+#chat-input:focus {
+    outline: none;
+}
+
+#send-btn {
+    background: var(--primary-color);
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+    margin-left: 10px;
+    box-shadow: 0 5px 15px rgba(160, 48, 97, 0.4);
+}
+#send-btn:hover {
+    background-color: #8a2a52;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(160, 48, 97, 0.5);
+}
+
+/* Responsiveness for Chatbot */
+@media (max-width: 992px) {
+    #chatbot-container-new {
+        width: 95%; /* Agak lebih sempit di tablet */
+        margin: 15px auto;
+        height: calc(100vh - var(--navbar-height) - 30px); /* Sesuaikan margin vertikal */
+    }
+}
+
+@media (max-width: 768px) {
+    /* Pada mobile, chatbot harus mengambil seluruh layar di bawah navbar */
+    body.chatbot-page #main-content-wrapper {
+        padding-top: var(--navbar-height) !important; /* Sesuaikan dengan tinggi navbar mobile jika berbeda */
+    }
+
+    #chatbot-container-new {
+        width: 100%;
+        height: calc(100vh - var(--navbar-height)) !important; /* Ambil seluruh sisa tinggi */
+        margin: 0 !important; /* Tidak ada margin di mobile */
+        border-radius: 0; /* Tidak ada border-radius di mobile */
+        box-shadow: none; /* Tidak ada shadow di mobile */
+    }
+
+    .chat-main-header {
+        padding: 10px 15px;
+    }
+    .chat-partner-avatar {
+        width: 38px;
+        height: 38px;
+    }
+    .chat-partner-name {
+        font-size: 1em;
+    }
+    .chat-main-actions button {
+        font-size: 1em;
+    }
+
+    .chat-messages-display, .chat-input-area {
+        padding: 15px 15px;
+    }
+
+    .large-logo-grey {
+        max-width: 120px;
+        margin-bottom: 20px;
+    }
+    .welcome-title-chat {
+        font-size: 1.6em;
+        margin-bottom: 10px;
+    }
+    .welcome-text-chat {
+        font-size: 0.9em;
+        max-width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .message-bubble {
+        max-width: 90%;
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+
+    #chat-form {
+        padding: 6px;
+    }
+    #chat-input {
+        padding: 10px 12px;
+        font-size: 0.9em;
+    }
+    #send-btn, .input-attach-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1em;
+    }
+}

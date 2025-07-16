@@ -1,252 +1,284 @@
-/* HEADER DAN FOOTER */
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/*
+|--------------------------------------------------------------------------
+| CSS Global Aplikasi (app.css)
+|--------------------------------------------------------------------------
+| Ini adalah CSS dasar untuk seluruh aplikasi Anda, termasuk navbar dan footer.
+*/
 
 :root {
-    --primary-color: #A03061; /* Warna merah marun untuk tombol utama */
-    --secondary-color: #FF8C00; /* Warna oranye untuk chatbot */
-    --text-color: #333;
-    --light-grey: #f4f4f4;
-    --dark-grey: #666;
+    --primary-color: #A03061; /* Merah Marun */
+    --secondary-color: #FF8C00; /* Oranye */
+    --text-color: #333; /* Abu-abu gelap untuk teks utama */
+    --light-grey: #f4f4f4; /* Abu-abu terang */
+    --dark-grey: #666; /* Abu-abu gelap untuk teks sekunder */
+    --white: #FFFFFF;
+    --black: #000000;
+
+    --navbar-height: 80px; /* Tinggi navbar yang konsisten */
+    --footer-height: auto; /* Footer tinggi otomatis */
+
+    --container-max-width: 1200px;
+    --section-padding-y: 80px; /* Padding vertikal untuk section di halaman utama */
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+    --transition-speed: 0.3s ease-in-out;
 }
 
+/* Base styles and resets */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Poppins', sans-serif;
+html, body {
+    height: 100%;
+    font-family: 'Poppins', sans-serif; /* Pastikan font Poppins dimuat atau ganti */
     color: var(--text-color);
     line-height: 1.6;
-    background-color: #fff;
+    background-color: var(--light-grey); /* Warna latar belakang default aplikasi */
+    overflow-x: hidden; /* Mencegah scroll horizontal */
+}
+
+/* Layout for regular pages (not chatbot) */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Memastikan body mengisi seluruh viewport */
 }
 
 .container {
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 20px;
 }
 
-a {
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
-ul {
-    list-style: none;
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 25px;
-    border-radius: 5px;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    text-align: center;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: #8a2a52;
-}
-
-.btn-login {
-    background-color: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-    padding: 8px 20px; /* Sesuaikan padding agar lebih pas di navbar */
-    font-size: 0.95em;
-    border-radius: 20px; /* Lebih bulat */
-}
-
-.btn-login:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-}
-
-.btn-logout {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: 2px solid var(--primary-color);
-    margin-left: 10px;
-}
-
-.btn-logout:hover {
-    background-color: #8a2a52;
-}
-
-/* Header Section (Navbar) */
+/* Header (Navbar) */
 .main-header {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--light-grey);
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background-color: var(--white);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: fixed; /* Penting: Navbar fixed di atas */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Pastikan di atas konten lain */
+    height: var(--navbar-height); /* Tinggi navbar konsisten */
+    display: flex;
+    align-items: center;
+    padding: 0 20px; /* Padding samping untuk konten header */
 }
 
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    width: 100%;
+    max-width: var(--container-max-width); /* Batasi lebar konten header */
+    margin: 0 auto; /* Tengah konten header */
 }
 
-.logo img {
-    height: 40px;
+.main-header .logo img {
+    height: 40px; /* Sesuaikan tinggi logo */
+    max-width: 150px;
 }
 
 .main-nav ul {
+    list-style: none;
     display: flex;
     gap: 30px;
 }
 
 .main-nav ul li a {
+    text-decoration: none;
     color: var(--text-color);
     font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 1.05em;
+    padding: 10px 0;
+    transition: color var(--transition-speed);
 }
 
 .main-nav ul li a:hover {
     color: var(--primary-color);
 }
 
-.auth-buttons {
-    display: flex;
-    align-items: center;
+.auth-buttons .btn-login {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-speed);
+    box-shadow: 0 4px 10px rgba(160, 48, 97, 0.2);
 }
 
-/* Footer Section */
+.auth-buttons .btn-login:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 6px 15px rgba(160, 48, 97, 0.4);
+}
+
+/* Main Content Wrapper for non-chatbot pages */
+#main-content-wrapper {
+    flex-grow: 1; /* Konten utama akan mengisi sisa ruang */
+    padding-top: var(--navbar-height); /* Offset untuk navbar fixed */
+    /* Mungkin ada padding-bottom untuk footer di halaman tertentu jika tidak sembunyi */
+    /* padding-bottom: var(--footer-height); */ /* Ini jika footer juga fixed */
+}
+
+/* Footer styles */
 .main-footer {
-    background-color: #333;
-    color: #f0f0f0;
-    padding: 50px 0 20px;
+    background-color: var(--text-color); /* Atau warna gelap lain */
+    color: var(--white);
+    padding: 40px 0 20px; /* Padding atas, bawah, samping */
+    flex-shrink: 0; /* Agar footer tidak menyusut saat flex */
 }
 
-.footer-content {
+.main-footer .footer-content {
     display: flex;
-    justify-content: space-between;
-    gap: 40px;
     flex-wrap: wrap;
-}
-
-.footer-brand, .footer-nav, .footer-contact {
-    flex: 1;
-    min-width: 200px;
+    justify-content: space-between;
+    gap: 30px; /* Jarak antar kolom footer */
 }
 
 .footer-brand img {
-    height: 50px;
+    height: 60px; /* Ukuran logo footer */
     margin-bottom: 15px;
 }
 
 .footer-brand p {
     font-size: 0.9em;
-    line-height: 1.5;
-    color: #bbb;
+    line-height: 1.8;
+    max-width: 350px;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-.footer-nav h4, .footer-contact h4 {
-    font-size: 1.2em;
+.footer-nav h4,
+.footer-contact h4 {
+    font-size: 1.1em;
     margin-bottom: 20px;
-    color: #fff;
+    color: var(--secondary-color); /* Warna judul footer */
 }
 
 .footer-nav ul {
     list-style: none;
 }
 
-.footer-nav ul li {
-    margin-bottom: 10px;
-}
-
 .footer-nav ul li a {
-    color: #bbb;
-    transition: color 0.3s ease;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95em;
+    margin-bottom: 10px;
+    display: block;
+    transition: color var(--transition-speed);
 }
 
 .footer-nav ul li a:hover {
-    color: var(--primary-color);
+    color: var(--white);
 }
 
 .footer-contact p {
+    font-size: 0.95em;
     margin-bottom: 10px;
-    color: #bbb;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-.social-media {
-    margin-top: 20px;
+.footer-contact .social-media a img {
+    height: 28px;
+    width: 28px;
+    margin-right: 10px;
+    transition: transform var(--transition-speed);
 }
 
-.social-media a {
-    display: inline-block;
-    margin-right: 15px;
-}
-
-.social-media img {
-    height: 30px;
-    width: 30px;
-    filter: brightness(0) invert(1);
+.footer-contact .social-media a img:hover {
+    transform: translateY(-3px);
 }
 
 .footer-bottom {
-    border-top: 1px solid #444;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 20px;
     margin-top: 40px;
     text-align: center;
-}
-
-.footer-bottom p {
     font-size: 0.85em;
-    color: #bbb;
+    color: rgba(255, 255, 255, 0.6);
 }
 
-/* Media Queries for Global Elements */
+/* Responsiveness for general app.css */
 @media (max-width: 768px) {
+    .main-header {
+        height: 70px; /* Navbar lebih kecil di mobile */
+    }
+    .main-header .logo img {
+        height: 35px;
+    }
+    .main-nav {
+        display: none; /* Sembunyikan navigasi di mobile, bisa diganti dengan toggle menu */
+    }
     .header-content {
+        justify-content: center; /* Pusat logo di mobile jika nav hilang */
+    }
+    .auth-buttons .btn-login {
+        padding: 8px 20px;
+        font-size: 0.9em;
+    }
+
+    #main-content-wrapper {
+        padding-top: 70px; /* Sesuaikan offset navbar mobile */
+    }
+
+    .main-footer .footer-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
-
-    .main-nav ul {
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 15px;
-    }
-
-    .auth-buttons {
-        margin-top: 15px;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .footer-brand, .footer-nav, .footer-contact {
-        min-width: unset;
-        width: 100%;
-        margin-bottom: 30px;
-    }
-
-    .social-media {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .social-media a {
-        margin-right: 0;
+    .footer-brand p {
+        max-width: 90%;
     }
 }
 
+
+/* General Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px; /* Bentuk pil */
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    font-size: 1em; /* Ukuran font default untuk tombol */
+    border: none; /* Default tanpa border */
+}
+
+/* Primary Button Style */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: 2px solid var(--primary-color); /* Border agar konsisten saat hover */
+    box-shadow: 0 5px 15px rgba(160, 48, 97, 0.3); /* Shadow untuk kedalaman */
+}
+
+.btn-primary:hover {
+    background-color: #8a2a52; /* Warna sedikit lebih gelap saat hover */
+    border-color: #8a2a52;
+    transform: translateY(-2px); /* Efek naik sedikit */
+    box-shadow: 0 8px 20px rgba(160, 48, 97, 0.4); /* Shadow lebih besar saat hover */
+}
+
+/* Optional: Outline Primary Button (jika diperlukan) */
+.btn-outline-primary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 5px 15px rgba(160, 48, 97, 0.3);
+    transform: translateY(-2px);
+}
