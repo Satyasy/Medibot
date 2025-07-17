@@ -1,6 +1,6 @@
 /*
 |--------------------------------------------------------------------------
-| CSS Global Aplikasi (app.css)
+| CSS Global Aplikasi (app.css) - Responsif untuk Mobile
 |--------------------------------------------------------------------------
 | Ini adalah CSS dasar untuk seluruh aplikasi Anda, termasuk navbar dan footer.
 */
@@ -52,7 +52,7 @@ body {
 .container {
     max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 20px; /* Padding samping default untuk konten */
 }
 
 /* Header (Navbar) */
@@ -72,7 +72,7 @@ body {
 
 .header-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Logo di kiri, nav & tombol di kanan */
     align-items: center;
     width: 100%;
     max-width: var(--container-max-width); /* Batasi lebar konten header */
@@ -88,6 +88,8 @@ body {
     list-style: none;
     display: flex;
     gap: 30px;
+    margin: 0; /* Pastikan tidak ada margin default */
+    padding: 0; /* Pastikan tidak ada padding default */
 }
 
 .main-nav ul li a {
@@ -121,12 +123,55 @@ body {
     box-shadow: 0 6px 15px rgba(160, 48, 97, 0.4);
 }
 
+/* General Button Styles (dari permintaan sebelumnya) */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    font-size: 1em;
+    border: none;
+}
+
+/* Primary Button Style */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 5px 15px rgba(160, 48, 97, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #8a2a52;
+    border-color: #8a2a52;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(160, 48, 97, 0.4);
+}
+
+/* Optional: Outline Primary Button */
+.btn-outline-primary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 5px 15px rgba(160, 48, 97, 0.3);
+    transform: translateY(-2px);
+}
+
+
 /* Main Content Wrapper for non-chatbot pages */
 #main-content-wrapper {
     flex-grow: 1; /* Konten utama akan mengisi sisa ruang */
     padding-top: var(--navbar-height); /* Offset untuk navbar fixed */
-    /* Mungkin ada padding-bottom untuk footer di halaman tertentu jika tidak sembunyi */
-    /* padding-bottom: var(--footer-height); */ /* Ini jika footer juga fixed */
+    /* Padding bawah untuk footer bisa ditambahkan jika footer tidak fixed */
 }
 
 /* Footer styles */
@@ -144,6 +189,11 @@ body {
     gap: 30px; /* Jarak antar kolom footer */
 }
 
+.footer-brand {
+    flex: 1; /* Biarkan mengisi ruang */
+    min-width: 250px; /* Minimal lebar untuk brand */
+}
+
 .footer-brand img {
     height: 60px; /* Ukuran logo footer */
     margin-bottom: 15px;
@@ -156,6 +206,12 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
+.footer-nav,
+.footer-contact {
+    flex: 1; /* Biarkan mengisi ruang */
+    min-width: 180px; /* Minimal lebar untuk nav/kontak */
+}
+
 .footer-nav h4,
 .footer-contact h4 {
     font-size: 1.1em;
@@ -165,6 +221,8 @@ body {
 
 .footer-nav ul {
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .footer-nav ul li a {
@@ -186,10 +244,15 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
+.footer-contact .social-media {
+    display: flex;
+    gap: 15px; /* Jarak antar ikon sosial media */
+    margin-top: 15px;
+}
+
 .footer-contact .social-media a img {
     height: 28px;
     width: 28px;
-    margin-right: 10px;
     transition: transform var(--transition-speed);
 }
 
@@ -206,79 +269,100 @@ body {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Responsiveness for general app.css */
+/* ========================================= */
+/* Responsiveness for app.css (Navbar & Footer) */
+/* ========================================= */
+
+/* Mobile (<= 768px) */
 @media (max-width: 768px) {
+    /* Navbar */
     .main-header {
-        height: 70px; /* Navbar lebih kecil di mobile */
+        height: 60px; /* Navbar lebih kecil di mobile */
+        padding: 0 15px; /* Padding samping lebih kecil */
     }
     .main-header .logo img {
-        height: 35px;
+        height: 30px; /* Logo lebih kecil */
     }
     .main-nav {
-        display: none; /* Sembunyikan navigasi di mobile, bisa diganti dengan toggle menu */
+        display: none; /* Sembunyikan navigasi utama di mobile */
     }
     .header-content {
-        justify-content: center; /* Pusat logo di mobile jika nav hilang */
+        justify-content: space-between; /* Pastikan logo dan tombol login tetap terpisah */
     }
     .auth-buttons .btn-login {
-        padding: 8px 20px;
-        font-size: 0.9em;
+        padding: 8px 18px; /* Padding tombol login lebih kecil */
+        font-size: 0.85em; /* Font tombol login lebih kecil */
     }
 
     #main-content-wrapper {
-        padding-top: 70px; /* Sesuaikan offset navbar mobile */
+        padding-top: 60px; /* Sesuaikan offset navbar mobile */
     }
 
+    /* Footer */
+    .main-footer {
+        padding: 30px 0 15px; /* Padding footer lebih kecil */
+    }
     .main-footer .footer-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: column; /* Stack kolom footer secara vertikal */
+        align-items: center; /* Pusatkan konten di setiap kolom */
+        text-align: center; /* Pusatkan teks */
+        gap: 25px; /* Jarak antar kolom footer yang di-stack */
+    }
+    .footer-brand,
+    .footer-nav,
+    .footer-contact {
+        width: 100%; /* Ambil lebar penuh saat di-stack */
+        min-width: unset; /* Hapus batasan min-width */
+        padding: 0 20px; /* Tambahkan padding samping */
     }
     .footer-brand p {
-        max-width: 90%;
+        max-width: 100%; /* Biarkan paragraf mengisi lebar penuh */
+    }
+    .footer-contact .social-media {
+        justify-content: center; /* Pusatkan ikon sosial media */
+    }
+    .footer-bottom {
+        margin-top: 30px; /* Jarak dari bagian atas footer */
+        padding-top: 15px;
+        font-size: 0.8em;
     }
 }
 
+/* Small Mobile (<= 480px) */
+@media (max-width: 480px) {
+    .main-header {
+        height: 55px; /* Navbar lebih kecil lagi */
+    }
+    .main-header .logo img {
+        height: 28px;
+    }
+    .auth-buttons .btn-login {
+        padding: 6px 15px;
+        font-size: 0.8em;
+    }
+    #main-content-wrapper {
+        padding-top: 55px; /* Sesuaikan offset navbar */
+    }
 
-/* General Button Styles */
-.btn {
-    display: inline-block;
-    padding: 12px 28px;
-    border-radius: 50px; /* Bentuk pil */
-    text-decoration: none;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    transition: all var(--transition-speed);
-    font-size: 1em; /* Ukuran font default untuk tombol */
-    border: none; /* Default tanpa border */
-}
-
-/* Primary Button Style */
-.btn-primary {
-    background-color: var(--primary-color);
-    color: var(--white);
-    border: 2px solid var(--primary-color); /* Border agar konsisten saat hover */
-    box-shadow: 0 5px 15px rgba(160, 48, 97, 0.3); /* Shadow untuk kedalaman */
-}
-
-.btn-primary:hover {
-    background-color: #8a2a52; /* Warna sedikit lebih gelap saat hover */
-    border-color: #8a2a52;
-    transform: translateY(-2px); /* Efek naik sedikit */
-    box-shadow: 0 8px 20px rgba(160, 48, 97, 0.4); /* Shadow lebih besar saat hover */
-}
-
-/* Optional: Outline Primary Button (jika diperlukan) */
-.btn-outline-primary {
-    background-color: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-}
-
-.btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
-    box-shadow: 0 5px 15px rgba(160, 48, 97, 0.3);
-    transform: translateY(-2px);
+    .main-footer {
+        padding: 25px 0 10px;
+    }
+    .footer-nav h4,
+    .footer-contact h4 {
+        font-size: 1em;
+        margin-bottom: 15px;
+    }
+    .footer-nav ul li a,
+    .footer-contact p {
+        font-size: 0.85em;
+    }
+    .footer-contact .social-media a img {
+        height: 24px;
+        width: 24px;
+    }
+    .footer-bottom {
+        margin-top: 20px;
+        padding-top: 10px;
+        font-size: 0.75em;
+    }
 }

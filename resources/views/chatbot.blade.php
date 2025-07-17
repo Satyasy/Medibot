@@ -16,7 +16,7 @@
         {{-- Area Chat Utama --}}
         <main class="chat-main-area">
             {{-- Header internal chatbot --}}
-            {{-- <header class="chat-main-header">
+            <header class="chat-main-header">
                 <div class="chat-partner-info">
                     <img src="{{ asset('images/logo-only.png') }}" alt="Medibot" class="chat-partner-avatar">
                     <span class="chat-partner-name">Medibot AI Assistant</span>
@@ -24,7 +24,7 @@
                 <div class="chat-main-actions">
                     <button><i class="fas fa-ellipsis-v"></i></button>
                 </div>
-            </header> --}}
+            </header>
 
             {{-- Area Pesan Chat --}}
             <div class="chat-messages-display" id="chat-messages">
@@ -61,7 +61,63 @@
             const chatbotApiUrl = '/api/generate-text'; // Pastikan URL ini benar
 
             function scrollToBottom() {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                // Gunakan setTimeout untuk memastikan DOM diperbarui sebelum menggulir
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 50); // Penundaan kecil agar DOM sempat render
+            }
+
+            /**
+             * Fungsi untuk memformat teks balasan bot:
+             * - Mengubah **teks** menjadi <strong>teks</strong>
+             * - Mengubah * item menjadi <ul><li>item</li></ul>
+             * - Mengubah setiap baris menjadi <p> untuk paragraf.
+             */
+            function formatBotMessage(text) {
+                // 1. Proses bold: **text** -> <strong>text</strong>
+                // Ini harus dilakukan pertama agar bold di dalam list item juga terdeteksi
+                let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                const lines = formattedText.split('\n');
+                let htmlOutput = '';
+                let inList = false;
+
+                lines.forEach(line => {
+                    const trimmedLine = line.trim();
+                    if (trimmedLine.startsWith('* ')) {
+                        if (!inList) {
+                            htmlOutput += '<ul>'; // Mulai daftar baru
+                            inList = true;
+                        }
+                        // Hapus awalan "* " dan tambahkan sebagai item daftar
+                        htmlOutput += `<li>${trimmedLine.substring(2)}</li>`;
+                    } else {
+                        if (inList) {
+                            htmlOutput += '</ul>'; // Tutup daftar jika sebelumnya dalam daftar
+                            inList = false;
+                        }
+                        // Perlakukan sebagai paragraf, tapi hanya jika baris tidak kosong
+                        if (trimmedLine !== '') {
+                            htmlOutput += `<p>${trimmedLine}</p>`;
+                        }
+                    }
+                });
+
+                // Tutup daftar yang mungkin masih terbuka di akhir teks
+                if (inList) {
+                    htmlOutput += '</ul>';
+                }
+
+                // Fallback: Jika setelah semua pemrosesan, output HTML kosong
+                // namun teks aslinya tidak kosong (misal: hanya spasi atau karakter tak terformat),
+                // maka kembalikan teks asli dengan <br> untuk mempertahankan baris baru.
+                // Ini juga menangani kasus di mana tidak ada markdown yang terdeteksi
+                // dan kita ingin baris-baris dipisahkan oleh <br> secara default, bukan <p>.
+                if (htmlOutput.trim() === '' && text.trim() !== '') {
+                    return text.replace(/\n/g, '<br>');
+                }
+
+                return htmlOutput;
             }
 
             function appendMessage(sender, text) {
@@ -72,8 +128,10 @@
                 const messageRow = document.createElement('div');
                 messageRow.classList.add('message-row', sender === 'user' ? 'user-row' : 'bot-row');
 
-                const avatarSrc = sender === 'user' ? 'https://via.placeholder.com/32/A03061/FFFFFF?text=U' :
-                    '{{ asset('images/logo-only.png') }}';
+                // Untuk avatar user, sekarang menggunakan profile-picture.png
+                // Untuk bot, menggunakan logo-only.png
+                const avatarSrc = sender === 'user' ? '{{ asset('images/profile-picture.png') }}' : // Gambar profil untuk User
+                    '{{ asset('images/logo-only.png') }}'; // Logo Medibot untuk Bot
                 const avatar = document.createElement('img');
                 avatar.classList.add('message-avatar');
                 avatar.src = avatarSrc;
@@ -81,7 +139,14 @@
 
                 const bubble = document.createElement('div');
                 bubble.classList.add('message-bubble', sender === 'user' ? 'user-message' : 'bot-message');
-                bubble.innerHTML = text.replace(/\n/g, '<br>');
+
+                if (sender === 'bot') {
+                    // Terapkan fungsi formatBotMessage hanya untuk pesan dari bot
+                    bubble.innerHTML = formatBotMessage(text);
+                } else {
+                    // Untuk pesan user, cukup ganti newline dengan <br>
+                    bubble.innerHTML = text.replace(/\n/g, '<br>');
+                }
 
                 if (sender === 'user') {
                     messageRow.appendChild(bubble);
@@ -96,12 +161,16 @@
             }
 
             function appendTypingIndicator() {
+                if (chatStartView.style.display !== 'none') {
+                    chatStartView.style.display = 'none';
+                }
+
                 const messageRow = document.createElement('div');
                 messageRow.classList.add('message-row', 'bot-row', 'typing-indicator');
 
                 const avatar = document.createElement('img');
                 avatar.classList.add('message-avatar');
-                avatar.src = '{{ asset('images/logo-only.png') }}';
+                avatar.src = '{{ asset('images/logo-only.png') }}'; // Avatar bot untuk typing indicator
                 avatar.alt = 'Bot';
 
                 const bubble = document.createElement('div');
@@ -134,15 +203,16 @@
 
                     const typingIndicator = appendTypingIndicator();
 
-                    fetch('/api/generate-text', {
+                    fetch(chatbotApiUrl, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest'
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                             },
                             body: JSON.stringify({
-                                prompt: message // Ubah 'message' menjadi 'prompt' sesuai controller Laravel
+                                prompt: message
                             })
                         })
                         .then(response => {
@@ -170,8 +240,12 @@
             });
 
             // Initial state for chat messages (show welcome state)
-            if (chatMessages.children.length === 0) {
+            // Ini akan memastikan welcome view muncul jika tidak ada pesan saat halaman dimuat
+            if (chatMessages.children.length === 0 || (chatMessages.children.length === 1 && chatMessages.firstElementChild.id === 'chat-start-view')) {
                 chatStartView.style.display = 'flex';
+            } else {
+                 chatStartView.style.display = 'none'; // Sembunyikan jika sudah ada pesan (misal dari riwayat)
+                 scrollToBottom(); // Gulir ke bawah jika ada pesan lama
             }
         });
     </script>
