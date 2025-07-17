@@ -4,23 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\GeminiAIService;
-use App\Services\RAGService; 
 
 class GeminiController extends Controller
 {
     protected $geminiService;
-    protected $ragService;
 
-    public function __construct(GeminiAIService $geminiService, RAGService $ragService) {
+    public function __construct(GeminiAIService $geminiService) {
         $this->geminiService = $geminiService;
-        $this->ragService = $ragService;
     }
 
-     public function showChatbotPage()
+    public function showChatbotPage()
     {
-        return view('chatbot'); // Akan merender file resources/views/chatbot.blade.php
+        return view('chatbot');
     }
-    
+
     public function generate(Request $request) {
         $request->validate([
             'prompt' => 'required|string',
@@ -28,29 +25,54 @@ class GeminiController extends Controller
 
         $userQuery = $request->input('prompt');
 
-        // ==== LOGIKA RAG DIMULAI DI SINI ====
+        // AUGMENTATION ENHANCED (NO FILTER, NO RAG)
+        $finalPrompt = "Anda adalah Medibot, asisten AI medis yang sangat akurat dan profesional.
 
-        // 3. RETRIEVAL: Cari konteks dari database menggunakan RAGService
-        $context = $this->ragService->findRelevantContext($userQuery);
+PERTANYAAN USER: {$userQuery}
 
-        $finalPrompt = '';
+INSTRUKSI RESPONS:
+1. WAJIB analisis gejala yang disebutkan user dengan sangat teliti
+2. WAJIB berikan diagnosis diferensial dengan persentase kemungkinan yang realistis (minimal 3-5 penyakit)
+3. Format persentase: 'Nama Penyakit: XX%'
+4. Urutkan dari persentase tertinggi ke terendah
+5. Berikan penjelasan detail untuk setiap penyakit yang disebutkan
+6. Sertakan gejala tambahan yang mungkin muncul
+7. Berikan rekomendasi tindakan medis yang tepat
+8. SELALU akhiri dengan disclaimer medis dan anjuran konsultasi dokter
+9. WAJIB sebutkan sumber informasi di akhir
 
-        // 4. AUGMENTATION: Buat prompt akhir berdasarkan ada atau tidaknya konteks
-        if ($context) {
-            // Jika konteks DITEMUKAN, buat prompt yang diperkaya
-            $finalPrompt = "Anda adalah asisten AI kesehatan bernama Medibot. Berdasarkan informasi berikut: '{$context}'. Jawab pertanyaan dari pengguna: '{$userQuery}'. Jawablah dengan tepat dan hanya berdasarkan informasi yang diberikan. Selalu sebutkan sumber informasi di akhir jawaban Anda.";
-        } else {
-            // Jika konteks TIDAK DITEMUKAN, berikan jawaban dengan penafian
-            $finalPrompt = "Anda adalah asisten AI kesehatan bernama Medibot. Jawab pertanyaan dari pengguna: '{$userQuery}'. Penting: Karena saya tidak menemukan informasi spesifik di basis data medis saya, berikan jawaban umum dan akhiri dengan penafian bahwa ini adalah informasi umum dan pengguna harus berkonsultasi dengan dokter.";
-        }
+BATASAN:
+- Jangan memberikan diagnosis pasti, hanya kemungkinan
+- Jangan merekomendasikan dosis obat spesifik
+- Selalu tekankan pentingnya konsultasi medis profesional
+- Jika tidak yakin, katakan 'memerlukan pemeriksaan lebih lanjut'
 
-        // 5. GENERATION: Kirim prompt yang sudah final ke Gemini
+Format respons yang diharapkan:
+**ANALISIS GEJALA:**
+[Analisis gejala yang disebutkan]
+
+**KEMUNGKINAN DIAGNOSIS:**
+1. [Nama Penyakit]: [XX]%
+   - Penjelasan: [detail penyakit]
+   - Gejala tambahan: [gejala lain yang mungkin muncul]
+
+2. [Nama Penyakit]: [XX]%
+   - Penjelasan: [detail penyakit]
+   - Gejala tambahan: [gejala lain yang mungkin muncul]
+
+**REKOMENDASI:**
+[Tindakan yang disarankan]
+
+**DISCLAIMER:**
+[Penafian medis dan anjuran konsultasi dokter]
+
+**SUMBER:** [Sumber informasi]";
+
         $responseText = $this->geminiService->generateText($finalPrompt);
 
-        // 6. RESPONSE: Kembalikan jawaban ke pengguna
         return response()->json([
             'reply' => $responseText,
-            'source' => $context ? strtok($context, "\n") : 'Pengetahuan Umum AI' // Kirim juga sumbernya
+            'source' => 'Basis Pengetahuan Umum AI'
         ]);
     }
 }
