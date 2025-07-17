@@ -148,7 +148,7 @@ body.chatbot-page .col-md-9 {
     z-index: 10;
     height: var(--chat-header-height);
     box-sizing: border-box;
-    box-shadow: 0 2px 8px var(--shadow-color-subtle);
+    box-shadow: 0 2px 8px var(--shadow-color-subtle); /* Bayangan halus untuk header chat */
 }
 
 .chat-partner-info {
@@ -281,6 +281,42 @@ body.chatbot-page .col-md-9 {
     position: relative;
 }
 
+/* Perbaikan: Styling untuk teks bold, paragraf, dan list di dalam bubble */
+.message-bubble strong {
+    font-weight: 700; /* Pastikan teks bold benar-benar tebal */
+    color: inherit; /* Pertahankan warna teks bubble */
+}
+
+.message-bubble p {
+    margin-bottom: 10px; /* Spasi antar paragraf */
+}
+.message-bubble p:last-child {
+    margin-bottom: 0; /* Hapus margin bawah pada paragraf terakhir */
+}
+.message-bubble p:first-child {
+    margin-top: 0; /* Hapus margin atas pada paragraf pertama */
+}
+
+.message-bubble ul {
+    margin-top: 10px; /* Spasi di atas daftar */
+    margin-bottom: 10px; /* Spasi di bawah daftar */
+    padding-left: 25px; /* Indentasi untuk bullet points */
+    list-style-type: disc; /* Tipe bullet point standar */
+    color: inherit; /* Pertahankan warna teks bubble */
+}
+
+.message-bubble ul li {
+    margin-bottom: 5px; /* Spasi antar item daftar */
+    line-height: 1.5; /* Line height untuk item daftar */
+}
+
+/* Aturan untuk spasi jika list dan paragraf bersebelahan */
+.message-bubble p + ul,
+.message-bubble ul + p {
+    margin-top: 15px; /* Spasi lebih besar jika list/paragraf berurutan */
+}
+
+
 /* User message specific styling to ensure avatar is on the right */
 .user-row {
     justify-content: flex-end; /* Pushes the entire message row to the right */
@@ -307,6 +343,7 @@ body.chatbot-page .col-md-9 {
     border-bottom-right-radius: var(--radius-sm); /* Sudut bawah kanan lebih kecil */
     border-top-left-radius: var(--radius-lg); /* Sudut atas kiri lebih besar */
     border-bottom-left-radius: var(--radius-lg); /* Sudut bawah kiri lebih besar */
+    box-shadow: 0 4px 15px var(--primary-shadow); /* Gunakan primary-shadow untuk user bubbles */
 }
 
 .bot-message {
@@ -324,6 +361,8 @@ body.chatbot-page .col-md-9 {
     gap: 6px; /* Jarak dot sedikit lebih besar */
     background-color: var(--secondary-bubble-bg);
     padding: 14px 20px;
+    border-radius: var(--radius-md); /* Pastikan ini tetap bulat seperti bubble chat */
+    box-shadow: 0 2px 10px var(--shadow-color-subtle); /* Bayangan halus */
 }
 .typing-indicator .dot {
     height: 9px; /* Dot sedikit lebih besar */
@@ -331,13 +370,24 @@ body.chatbot-page .col-md-9 {
     background-color: var(--dark-grey);
     border-radius: var(--radius-full);
     display: inline-block;
-    animation: bounce 1.4s infinite ease-in-out both;
+    animation: bounce 1.4s infinite ease-in-out both; /* Animasi bounce */
 }
 .typing-indicator .dot:nth-child(2) {
-    animation-delay: -0.16s;
+    animation-delay: -0.16s; /* Penundaan untuk dot kedua */
 }
 .typing-indicator .dot:nth-child(3) {
-    animation-delay: -0.32s;
+    animation-delay: -0.32s; /* Penundaan untuk dot ketiga */
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0); /* Posisi awal dan akhir */
+        opacity: 0.7; /* Sedikit transparan di awal/akhir */
+    }
+    50% {
+        transform: translateY(-8px); /* Bergerak ke atas */
+        opacity: 1; /* Penuh di tengah */
+    }
 }
 
 /* Chat Input Area */
