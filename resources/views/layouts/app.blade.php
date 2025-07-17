@@ -24,7 +24,7 @@
     <header class="main-header">
         <div class="container header-content">
             <div class="logo">
-                <img src="{{ asset('images/logo-header.png') }}" alt="Logo M3">
+                <img src="{{ asset('images/logo-only.png') }}" alt="Logo M3">
             </div>
             <nav class="main-nav">
                 <ul>
@@ -68,7 +68,7 @@
             <div class="footer-contact">
                 <h4>Kontak Kami</h4>
                 <p>Email: medibotai@gmail.com</p>
-                <p>Telepon: +62 813 9883 6319</p>
+                <p>Telepon: +62 851 7543 5775</p>
                 <div class="social-media">
                     <a href="#"><img src="{{ asset('images/facebook-icon.png') }}" alt="Facebook"></a>
                     <a href="#"><img src="{{ asset('images/instagram-icon.png') }}" alt="Instagram"></a>

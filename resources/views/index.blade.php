@@ -14,7 +14,7 @@
             <div class="hero-text">
                 <h1>Lindungi dirimu <br>Lindungi keluarga.</h1>
                 <p>Konsultasikan kesehatan Anda langsung kepada dokter profesional dan dapatkan informasi terpercaya dari sumber yang kredibel. Kami siap membantu Anda menjaga kesehatan keluarga, kapanpun dan dimanapun.</p>
-                <a href="#" class="btn btn-primary">Cari informasi</a>
+                <a href="{{ url('/chatbot') }}" class="btn btn-primary">Cari informasi</a>
             </div>
             <div class="hero-image">
                 <img src="{{ asset('images/hero-landing.png') }}" alt="Ilustrasi Dokter dan Pasien">

@@ -80,8 +80,8 @@ body {
 }
 
 .main-header .logo img {
-    height: 40px; /* Sesuaikan tinggi logo */
-    max-width: 150px;
+    height: 70px; /* Sesuaikan tinggi logo */
+    max-width: 200px;
 }
 
 .main-nav ul {
@@ -281,7 +281,7 @@ body {
         padding: 0 15px; /* Padding samping lebih kecil */
     }
     .main-header .logo img {
-        height: 30px; /* Logo lebih kecil */
+        height: 47px; /* Logo lebih kecil */
     }
     .main-nav {
         display: none; /* Sembunyikan navigasi utama di mobile */
@@ -334,7 +334,7 @@ body {
         height: 55px; /* Navbar lebih kecil lagi */
     }
     .main-header .logo img {
-        height: 28px;
+        height: 45px;
     }
     .auth-buttons .btn-login {
         padding: 6px 15px;
