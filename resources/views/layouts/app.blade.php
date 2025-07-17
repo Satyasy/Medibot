@@ -36,11 +36,8 @@
             </nav>
             <div class="auth-buttons">
                 @guest
-                    <a href="{{ route('login') }}" class="btn btn-login">Login</a>
+                    <a href="{{ url('/chatbot') }}" class="btn btn-login">Chatbot</a>
                 @endguest
-                {{-- @auth --}}
-                    {{-- Tambahkan link atau dropdown user jika sudah login --}}
-                {{-- @endauth --}}
             </div>
         </div>
     </header>

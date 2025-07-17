@@ -1,6 +1,6 @@
 /*
 |--------------------------------------------------------------------------
-| CSS untuk Chatbot Medibot (Fullscreen & Rapi)
+| CSS untuk Chatbot Medibot (Fullscreen & Rapi - Perbaikan Potongan Scroll)
 |--------------------------------------------------------------------------
 | File ini dimuat secara spesifik hanya di halaman chatbot.
 | Ini akan menimpa (override) atau melengkapi gaya dari app.css untuk tata letak chatbot.
@@ -50,16 +50,16 @@ body.chatbot-page {
 /* 2. Mengatur Main Content Wrapper di Halaman Chatbot */
 body.chatbot-page #main-content-wrapper {
     flex-grow: 1; /* Biarkan mengisi sisa tinggi */
-    padding-top: var(--navbar-height) !important; /* Offset untuk navbar fixed */
+    /* PERBAIKAN DI SINI: Tambahkan 1px ekstra untuk mengkompensasi potongan */
+    padding-top: calc(var(--navbar-height) + 1px) !important;
     padding-bottom: 0 !important;
     margin: 0 !important;
     width: 100% !important;
     max-width: none !important; /* Hapus batasan lebar */
     overflow: hidden; /* Penting untuk mencegah scroll ganda */
     display: flex; /* Jadikan flex container untuk chatbot-container-new */
-    justify-content: flex-start; /* PENTING: Jangan pusatkan, biarkan menempel ke kiri/atas */
-    align-items: stretch; /* PENTING: Biarkan item anak mengisi tinggi penuh */
-    /* Hapus align-items: center; jika ada, karena itu akan memusatkan secara vertikal */
+    justify-content: flex-start; /* Jangan pusatkan, biarkan menempel ke kiri/atas */
+    align-items: stretch; /* Biarkan item anak mengisi tinggi penuh */
 }
 
 /* 3. Menyembunyikan Footer di Halaman Chatbot */
@@ -143,12 +143,12 @@ body.chatbot-page .col-md-9 {
     align-items: center;
     padding: 15px 25px;
     border-bottom: 1px solid var(--border-color-light);
-    flex-shrink: 0; /* Agar header tidak menyusut */
+    flex-shrink: 0;
     background-color: var(--white);
     z-index: 10;
     height: var(--chat-header-height);
     box-sizing: border-box;
-    box-shadow: 0 2px 8px var(--shadow-color-subtle); /* Bayangan halus untuk header chat */
+    box-shadow: 0 2px 8px var(--shadow-color-subtle);
 }
 
 .chat-partner-info {
@@ -189,11 +189,11 @@ body.chatbot-page .col-md-9 {
     background-color: var(--border-color-light); /* Background saat hover */
 }
 
-/* Chat Messages Display */
+/* Chat Messages Display - PERBAIKAN DI SINI */
 .chat-messages-display {
     position: absolute;
-    top: var(--chat-header-height);
-    bottom: var(--chat-input-height);
+    top: var(--chat-header-height); /* Mulai tepat di bawah header */
+    bottom: var(--chat-input-height); /* Berakhir tepat di atas input area */
     left: 0;
     right: 0;
     overflow-y: auto;
@@ -201,7 +201,7 @@ body.chatbot-page .col-md-9 {
     flex-direction: column;
     gap: 20px; /* Jarak antar pesan lebih lega */
     scroll-behavior: smooth;
-    padding: 25px 30px; /* Padding lebih besar */
+    padding: 0 30px 25px 30px; /* Hapus padding-top, pertahankan padding samping dan bawah */
     box-sizing: border-box;
     background-color: var(--container-bg);
 }
@@ -333,6 +333,12 @@ body.chatbot-page .col-md-9 {
     display: inline-block;
     animation: bounce 1.4s infinite ease-in-out both;
 }
+.typing-indicator .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+.typing-indicator .dot:nth-child(3) {
+    animation-delay: -0.32s;
+}
 
 /* Chat Input Area */
 .chat-input-area {
@@ -436,7 +442,7 @@ body.chatbot-page .col-md-9 {
         padding: 12px 20px;
     }
     .chat-messages-display {
-        padding: 20px 25px;
+        padding: 0 25px 20px 25px; /* Hapus padding-top di tablet */
     }
     .chat-input-area {
         padding: 15px 20px;
@@ -535,7 +541,10 @@ body.chatbot-page .col-md-9 {
     #chatbot-container-new {
         height: calc(100vh - var(--navbar-height)) !important;
     }
-    .chat-messages-display, .chat-input-area {
+    .chat-messages-display {
+        padding: 0 10px 10px 10px; /* Hapus padding-top di mobile juga */
+    }
+    .chat-input-area {
         padding: 10px;
     }
     .chat-main-header {
